@@ -1,0 +1,6 @@
+{
+  "name": "NicheRadar - Unsolved Problem Finder",
+  "description": "Discover high-demand unsolved problems with real willingness to pay, competitor blind spots, and step-by-step MVP blueprints to build profitable micro-SaaS businesses.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
