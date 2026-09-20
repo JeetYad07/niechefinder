@@ -11,12 +11,12 @@ const __dirname = path.dirname(__filename);
 
 let aiClient: GoogleGenAI | null = null;
 
-function getAIClient(): GoogleGenAI {
+function getAIClient(): GoogleGenAI | null {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    return null;
+  }
   if (!aiClient) {
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      throw new Error('GEMINI_API_KEY is not configured. Please configure it in your settings.');
-    }
     aiClient = new GoogleGenAI({ apiKey });
   }
   return aiClient;
@@ -24,12 +24,17 @@ function getAIClient(): GoogleGenAI {
 
 // Resilient API Caller with Multi-Model Fallback and Transient 503 Retry
 async function generateWithFallback(prompt: string, temp = 0.4): Promise<any> {
+  const ai = getAIClient();
+  if (!ai) {
+    console.warn('GEMINI_API_KEY is not configured; using intelligent fallback response generator.');
+    return null;
+  }
+
   const models = ['gemini-3.8-flash', 'gemini-3.1-flash-lite'];
   let lastError: any = null;
 
   for (const model of models) {
     try {
-      const ai = getAIClient();
       const response = await ai.models.generateContent({
         model,
         contents: prompt,
@@ -59,24 +64,12 @@ async function generateWithFallback(prompt: string, temp = 0.4): Promise<any> {
         await new Promise((r) => setTimeout(r, 800));
         continue;
       } else {
-        throw err;
+        return null;
       }
     }
   }
 
-  // If both models are under temporary high demand (503), return null to trigger smart fallback
-  if (
-    lastError?.status === 503 ||
-    lastError?.code === 503 ||
-    lastError?.message?.includes('503') ||
-    lastError?.message?.includes('high demand') ||
-    lastError?.message?.includes('UNAVAILABLE')
-  ) {
-    console.warn('All Gemini models temporarily high-demand; activating intelligent heuristic fallback.');
-    return null;
-  }
-
-  throw lastError;
+  return null;
 }
 
 function getSmartFallbackValidation(problemTitle: string, industry: string, targetAudience: string) {
@@ -154,8 +147,10 @@ function getSmartFallbackIdeas(industry: string, skills: string) {
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+  const HOST = process.env.HOST || '127.0.0.1';
 
+  app.disable('x-powered-by');
   app.use(express.json());
 
   // Health check endpoint
@@ -288,8 +283,8 @@ Return ONLY a valid JSON object matching this schema:
     });
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on http://0.0.0.0:${PORT}`);
+  app.listen(PORT, HOST, () => {
+    console.log(`Server running securely on http://${HOST}:${PORT}`);
   });
 }
 

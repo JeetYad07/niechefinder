@@ -65,12 +65,19 @@ export default function App() {
   const filteredProblems = CURATED_PROBLEMS.filter((prob) => {
     const matchesCategory = selectedCategory === 'All' || prob.category === selectedCategory;
     const matchesComplexity = selectedComplexity === 'All' || prob.complexity === selectedComplexity;
+    
+    const query = searchQuery.trim().toLowerCase();
     const matchesSearch =
-      searchQuery === '' ||
-      prob.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      prob.tagline.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      prob.targetBuyer.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      prob.theBleedingNeck.toLowerCase().includes(searchQuery.toLowerCase());
+      query === '' ||
+      prob.title.toLowerCase().includes(query) ||
+      prob.tagline.toLowerCase().includes(query) ||
+      prob.category.toLowerCase().includes(query) ||
+      prob.targetBuyer.toLowerCase().includes(query) ||
+      prob.theBleedingNeck.toLowerCase().includes(query) ||
+      prob.currentStatusQuo.toLowerCase().includes(query) ||
+      prob.whyIncumbentsIgnore.toLowerCase().includes(query) ||
+      prob.complexity.toLowerCase().includes(query) ||
+      prob.mvpFeatureSet.some((feat) => feat.toLowerCase().includes(query));
 
     if (activeTab === 'saved') {
       return savedProblemIds.includes(prob.id) && matchesSearch;
@@ -174,7 +181,7 @@ export default function App() {
                   <button
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
+                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap cursor-pointer select-none transition-all ${
                       selectedCategory === cat
                         ? 'bg-neutral-100 text-neutral-900 shadow'
                         : 'bg-neutral-900 text-neutral-400 hover:text-neutral-200 border border-neutral-800'
@@ -202,16 +209,31 @@ export default function App() {
               </div>
             </div>
 
-            {/* Problem Counter & Saved status */}
-            <div className="flex items-center justify-between text-xs text-neutral-400 pt-1">
-              <div>
-                Showing <strong className="text-white">{filteredProblems.length}</strong>{' '}
-                {activeTab === 'saved' ? 'saved shortlisted opportunities' : 'high-pain opportunities'}
+            {/* Problem Counter & Active Search Badge */}
+            <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-neutral-400 pt-1">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span>
+                  Showing <strong className="text-white">{filteredProblems.length}</strong>{' '}
+                  {activeTab === 'saved' ? 'saved shortlisted opportunities' : 'high-pain opportunities'}
+                </span>
+                {searchQuery.trim() && (
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 font-medium text-[11px]">
+                    <span>Search: "{searchQuery.trim()}"</span>
+                    <button
+                      onClick={() => setSearchQuery('')}
+                      className="hover:text-white cursor-pointer p-0.5"
+                      title="Clear search filter"
+                    >
+                      ×
+                    </button>
+                  </span>
+                )}
               </div>
+
               {activeTab === 'saved' && filteredProblems.length === 0 && (
                 <button
                   onClick={() => setActiveTab('problems')}
-                  className="text-amber-400 hover:underline"
+                  className="text-amber-400 hover:underline cursor-pointer"
                 >
                   Explore and shortlist curated problems
                 </button>

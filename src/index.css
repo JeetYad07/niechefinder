@@ -1,1 +1,104 @@
 @import "tailwindcss";
+
+@layer base {
+  html {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: #090a0f;
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(245, 158, 11, 0.05) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.04) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(99, 102, 241, 0.03) 0px, transparent 50%);
+    background-attachment: fixed;
+    color: #f5f5f5;
+  }
+
+  /* Global Cursor Pointer & Selection Rules */
+  button,
+  [role="button"],
+  input[type="submit"],
+  input[type="button"],
+  input[type="reset"],
+  input[type="checkbox"],
+  input[type="radio"],
+  select,
+  summary,
+  a,
+  .cursor-pointer {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  /* Disabled State Cursor */
+  button:disabled,
+  button[aria-disabled="true"],
+  input:disabled,
+  select:disabled,
+  .cursor-not-allowed {
+    cursor: not-allowed !important;
+    opacity: 0.6;
+  }
+
+  /* Loading State Cursor */
+  button.is-loading,
+  .cursor-wait {
+    cursor: wait !important;
+  }
+
+  /* Interactive Range Sliders */
+  input[type="range"] {
+    cursor: grab;
+  }
+  input[type="range"]:active {
+    cursor: grabbing;
+  }
+}
+
+/* UI UX Pro Max Custom Component Styles */
+.glass-header {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(13, 14, 20, 0.85);
+}
+
+.glass-card {
+  background: linear-gradient(180deg, rgba(23, 25, 35, 0.8) 0%, rgba(15, 16, 23, 0.9) 100%);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.glass-card-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glass-card-hover:hover {
+  transform: translateY(-3px);
+  border-color: rgba(245, 158, 11, 0.4);
+  box-shadow: 0 12px 30px -10px rgba(245, 158, 11, 0.12), 0 0 0 1px rgba(245, 158, 11, 0.2);
+}
+
+.glow-amber {
+  box-shadow: 0 0 20px -3px rgba(245, 158, 11, 0.25);
+}
+
+.glow-emerald {
+  box-shadow: 0 0 20px -3px rgba(16, 185, 129, 0.25);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(15, 16, 23, 0.6);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(245, 158, 11, 0.5);
+}
