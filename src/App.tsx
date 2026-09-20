@@ -7,6 +7,8 @@ import { ProblemDetailModal } from './components/ProblemDetailModal';
 import { AIProblemValidator } from './components/AIProblemValidator';
 import { RevenueCalculator } from './components/RevenueCalculator';
 import { FrameworkGuide } from './components/FrameworkGuide';
+import { CommunityPainFeed } from './components/CommunityPainFeed';
+import { NewsletterModal } from './components/NewsletterModal';
 import {
   Sparkles,
   Compass,
@@ -17,16 +19,19 @@ import {
   CheckCircle2,
   ArrowRight,
   ShieldAlert,
+  Mail,
+  Users,
 } from 'lucide-react';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'problems' | 'ai-validator' | 'calculator' | 'framework' | 'saved'>('problems');
+  const [activeTab, setActiveTab] = useState<'problems' | 'ai-validator' | 'calculator' | 'framework' | 'saved' | 'community'>('problems');
   const [selectedCategory, setSelectedCategory] = useState<ProblemCategory>('All');
   const [selectedComplexity, setSelectedComplexity] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProblem, setSelectedProblem] = useState<ProblemOpportunity | null>(null);
   const [savedProblemIds, setSavedProblemIds] = useState<string[]>([]);
   const [calcInitialPrice, setCalcInitialPrice] = useState<number>(79);
+  const [isNewsletterOpen, setIsNewsletterOpen] = useState(false);
 
   // Load saved shortlist from localStorage
   useEffect(() => {
@@ -153,17 +158,33 @@ export default function App() {
               <div className="pt-2 flex items-center gap-3 flex-wrap">
                 <button
                   onClick={() => setActiveTab('ai-validator')}
-                  className="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-neutral-950 text-xs font-bold transition-all shadow-md flex items-center gap-2"
+                  className="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-neutral-950 text-xs font-bold transition-all shadow-md flex items-center gap-2 cursor-pointer select-none"
                 >
                   <Sparkles className="w-4 h-4" />
                   <span>Test Your Own Idea with AI</span>
                 </button>
 
                 <button
-                  onClick={() => setActiveTab('framework')}
-                  className="px-4 py-2.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs font-semibold transition-all border border-neutral-700 flex items-center gap-2"
+                  onClick={() => setActiveTab('community')}
+                  className="px-4 py-2.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs font-semibold transition-all border border-neutral-700 flex items-center gap-2 cursor-pointer select-none"
                 >
-                  <span>Read The 5-Point Validation Rules</span>
+                  <Users className="w-4 h-4 text-amber-400" />
+                  <span>Explore Crowdsourced Feed</span>
+                </button>
+
+                <button
+                  onClick={() => setIsNewsletterOpen(true)}
+                  className="px-4 py-2.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-emerald-400 text-xs font-semibold transition-all border border-emerald-500/30 flex items-center gap-2 cursor-pointer select-none"
+                >
+                  <Mail className="w-4 h-4" />
+                  <span>Get Weekly Lead Magnet</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('framework')}
+                  className="px-4 py-2.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 text-xs font-medium transition-all border border-neutral-800 flex items-center gap-2 cursor-pointer select-none"
+                >
+                  <span>5-Point Rules</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -278,12 +299,15 @@ export default function App() {
         {/* Tab 2: AI Problem Validator & Niche Generator */}
         {activeTab === 'ai-validator' && <AIProblemValidator />}
 
-        {/* Tab 3: MRR Calculator */}
+        {/* Tab 3: Crowdsourced Pain Point Feed */}
+        {activeTab === 'community' && <CommunityPainFeed />}
+
+        {/* Tab 4: MRR Calculator */}
         {activeTab === 'calculator' && (
           <RevenueCalculator initialPrice={calcInitialPrice} />
         )}
 
-        {/* Tab 4: Framework Guide */}
+        {/* Tab 5: Framework Guide */}
         {activeTab === 'framework' && <FrameworkGuide />}
       </main>
 
@@ -298,24 +322,36 @@ export default function App() {
         />
       )}
 
+      {/* Newsletter Lead Magnet Modal */}
+      <NewsletterModal
+        isOpen={isNewsletterOpen}
+        onClose={() => setIsNewsletterOpen(false)}
+      />
+
       {/* Simple Footer */}
       <footer className="border-t border-neutral-800/80 py-6 text-center text-xs text-neutral-500">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div>
             <strong>NicheRadar:</strong> Curated Unsolved B2B Problems, Micro-SaaS Blueprints & Idea Validation.
           </div>
-          <div className="flex items-center gap-4 text-neutral-400">
-            <button onClick={() => setActiveTab('problems')} className="hover:text-white transition-colors">
+          <div className="flex items-center gap-4 text-neutral-400 flex-wrap justify-center">
+            <button onClick={() => setActiveTab('problems')} className="hover:text-white transition-colors cursor-pointer">
               Problems
             </button>
-            <button onClick={() => setActiveTab('ai-validator')} className="hover:text-white transition-colors">
+            <button onClick={() => setActiveTab('ai-validator')} className="hover:text-white transition-colors cursor-pointer">
               AI Validator
             </button>
-            <button onClick={() => setActiveTab('calculator')} className="hover:text-white transition-colors">
+            <button onClick={() => setActiveTab('community')} className="hover:text-amber-400 transition-colors cursor-pointer">
+              Crowd Feed
+            </button>
+            <button onClick={() => setActiveTab('calculator')} className="hover:text-white transition-colors cursor-pointer">
               MRR Calculator
             </button>
-            <button onClick={() => setActiveTab('framework')} className="hover:text-white transition-colors">
+            <button onClick={() => setActiveTab('framework')} className="hover:text-white transition-colors cursor-pointer">
               5-Point Rules
+            </button>
+            <button onClick={() => setIsNewsletterOpen(true)} className="text-emerald-400 hover:text-emerald-300 transition-colors font-semibold cursor-pointer">
+              Newsletter Lead Magnet
             </button>
           </div>
         </div>

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Compass, Sparkles, Calculator, BookOpen, BookmarkCheck, Search, X } from 'lucide-react';
+import { Compass, Sparkles, Calculator, BookOpen, BookmarkCheck, Users, Search, X, Flame } from 'lucide-react';
 
 interface NavbarProps {
-  activeTab: 'problems' | 'ai-validator' | 'calculator' | 'framework' | 'saved';
-  setActiveTab: (tab: 'problems' | 'ai-validator' | 'calculator' | 'framework' | 'saved') => void;
+  activeTab: 'problems' | 'ai-validator' | 'calculator' | 'framework' | 'saved' | 'community';
+  setActiveTab: (tab: 'problems' | 'ai-validator' | 'calculator' | 'framework' | 'saved' | 'community') => void;
   savedCount: number;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
@@ -61,8 +61,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           )}
 
-          {/* Touch-scrollable Navigation Tabs for All Screens */}
-          <nav className="flex items-center gap-1 sm:gap-2 overflow-x-auto max-w-full py-1 scrollbar-none shrink-0 border-l border-neutral-800/80 pl-2 md:border-l-0 md:pl-0">
+          {/* Touch-scrollable Navigation Tabs */}
+          <nav className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto max-w-full py-1 scrollbar-none shrink-0 border-l border-neutral-800/80 pl-2 md:border-l-0 md:pl-0">
             <button
               onClick={() => setActiveTab('problems')}
               className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer select-none whitespace-nowrap transition-all ${
@@ -72,7 +72,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               }`}
             >
               <Compass className="w-3.5 h-3.5 shrink-0" />
-              <span><span className="hidden sm:inline">Curated </span>Problems</span>
+              <span>Problems</span>
             </button>
 
             <button
@@ -88,6 +88,18 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             <button
+              onClick={() => setActiveTab('community')}
+              className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer select-none whitespace-nowrap transition-all ${
+                activeTab === 'community'
+                  ? 'bg-amber-500 text-neutral-950 shadow-md font-bold'
+                  : 'text-neutral-300 hover:text-white hover:bg-neutral-800/80'
+              }`}
+            >
+              <Users className="w-3.5 h-3.5 shrink-0" />
+              <span>Crowd Feed</span>
+            </button>
+
+            <button
               onClick={() => setActiveTab('calculator')}
               className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer select-none whitespace-nowrap transition-all ${
                 activeTab === 'calculator'
@@ -96,7 +108,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               }`}
             >
               <Calculator className="w-3.5 h-3.5 shrink-0" />
-              <span><span className="hidden sm:inline">MRR </span>Calc</span>
+              <span>MRR Calc</span>
             </button>
 
             <button
@@ -108,7 +120,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               }`}
             >
               <BookOpen className="w-3.5 h-3.5 shrink-0" />
-              <span><span className="hidden lg:inline">Pain-to-Profit </span>Rules</span>
+              <span>Rules</span>
             </button>
 
             <button
@@ -121,7 +133,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               title="Saved Shortlist"
             >
               <BookmarkCheck className="w-3.5 h-3.5 shrink-0" />
-              <span><span className="hidden md:inline">Shortlist</span></span>
+              <span>Shortlist</span>
               {savedCount > 0 && (
                 <span className="px-1.5 py-0.2 rounded-full text-[10px] font-black bg-amber-400 text-neutral-950 shadow-xs">
                   {savedCount}
@@ -132,7 +144,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </div>
 
-      {/* Mobile Search Bar (visible on mobile < md when in problems or saved tab) */}
+      {/* Mobile Search Bar */}
       {(activeTab === 'problems' || activeTab === 'saved') && (
         <div className="md:hidden px-3 sm:px-4 pb-3 pt-1 border-t border-neutral-800/60 bg-neutral-900/95">
           <div className="relative">
