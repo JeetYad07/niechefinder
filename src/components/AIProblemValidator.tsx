@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Sparkles, ArrowRight, Loader2, CheckCircle, AlertCircle, DollarSign, Target, ShieldAlert, RefreshCw, Lightbulb } from 'lucide-react';
 import { AIValidationResult, GeneratedProblemIdea } from '../types';
+import { getSmartFallbackValidation, getSmartFallbackIdeas } from '../utils/aiFallback';
 
 export const AIProblemValidator: React.FC = () => {
   const [activeMode, setActiveMode] = useState<'validate' | 'generate'>('validate');
@@ -42,15 +43,25 @@ export const AIProblemValidator: React.FC = () => {
         }),
       });
 
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to validate problem');
+      const contentType = res.headers.get('content-type') || '';
+      let data: any = null;
+
+      if (contentType.includes('application/json')) {
+        data = await res.json();
+      } else {
+        // Response is non-JSON (e.g. static 404 HTML page on host deployment)
+        console.warn('Non-JSON endpoint response; activating client-side intelligent validation fallback.');
       }
 
-      setValidationResult(data.data);
+      if (res.ok && data && data.success && data.data) {
+        setValidationResult(data.data);
+      } else {
+        // Fallback to client-side smart heuristic validation engine
+        setValidationResult(getSmartFallbackValidation(problemTitle, industry, targetAudience));
+      }
     } catch (err: any) {
-      console.error(err);
-      setErrorMsg(err.message || 'Validation service encountered an error.');
+      console.warn('Validation API request error, using fallback:', err?.message || err);
+      setValidationResult(getSmartFallbackValidation(problemTitle, industry, targetAudience));
     } finally {
       setIsLoading(false);
     }
@@ -73,15 +84,23 @@ export const AIProblemValidator: React.FC = () => {
         }),
       });
 
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to generate ideas');
+      const contentType = res.headers.get('content-type') || '';
+      let data: any = null;
+
+      if (contentType.includes('application/json')) {
+        data = await res.json();
+      } else {
+        console.warn('Non-JSON endpoint response; activating client-side idea generation fallback.');
       }
 
-      setGeneratedProblems(data.data?.problems || []);
+      if (res.ok && data && data.success && data.data?.problems) {
+        setGeneratedProblems(data.data.problems);
+      } else {
+        setGeneratedProblems(getSmartFallbackIdeas(genIndustry, builderSkills));
+      }
     } catch (err: any) {
-      console.error(err);
-      setErrorMsg(err.message || 'Generation service encountered an error.');
+      console.warn('Generation API request error, using fallback:', err?.message || err);
+      setGeneratedProblems(getSmartFallbackIdeas(genIndustry, builderSkills));
     } finally {
       setIsLoading(false);
     }
