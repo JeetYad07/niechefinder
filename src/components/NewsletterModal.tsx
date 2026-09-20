@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { Mail, Check, X, Sparkles, Flame } from 'lucide-react';
 
 interface NewsletterModalProps {
+  isOpen?: boolean;
   onClose: () => void;
 }
 
-export const NewsletterModal: React.FC<NewsletterModalProps> = ({ onClose }) => {
+export const NewsletterModal: React.FC<NewsletterModalProps> = ({ isOpen = true, onClose }) => {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+
+  if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,13 +21,28 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ onClose }) => 
     } catch (err) {
       console.warn(err);
     }
-    setTimeout(() => onClose(), 2200);
+    setTimeout(() => {
+      setSubmitted(false);
+      setEmail('');
+      onClose();
+    }, 2200);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-      <div className="relative w-full max-w-md glass-card border border-neutral-800 rounded-2xl p-6 text-center space-y-4 text-xs text-neutral-200">
-        <button onClick={onClose} className="absolute right-3.5 top-3.5 text-neutral-400 hover:text-white p-1 cursor-pointer">
+    <div
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-md glass-card border border-neutral-800 rounded-2xl p-6 text-center space-y-4 text-xs text-neutral-200 shadow-2xl"
+      >
+        <button
+          onClick={onClose}
+          type="button"
+          className="absolute right-3.5 top-3.5 text-neutral-400 hover:text-white p-1.5 rounded-lg hover:bg-neutral-800 transition-colors cursor-pointer select-none"
+          title="Close modal"
+        >
           <X className="w-4 h-4" />
         </button>
 
