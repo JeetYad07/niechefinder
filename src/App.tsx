@@ -9,6 +9,8 @@ import { RevenueCalculator } from './components/RevenueCalculator';
 import { FrameworkGuide } from './components/FrameworkGuide';
 import { CommunityPainFeed } from './components/CommunityPainFeed';
 import { NewsletterModal } from './components/NewsletterModal';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import { AuthScreen } from './components/AuthScreen';
 import {
   Sparkles,
   Compass,
@@ -21,9 +23,12 @@ import {
   ShieldAlert,
   Mail,
   Users,
+  Loader2,
 } from 'lucide-react';
 
-export default function App() {
+function MainAppContent() {
+  const { user, loading } = useAuth();
+
   const [activeTab, setActiveTab] = useState<'problems' | 'ai-validator' | 'calculator' | 'framework' | 'saved' | 'community'>('problems');
   const [selectedCategory, setSelectedCategory] = useState<ProblemCategory>('All');
   const [selectedComplexity, setSelectedComplexity] = useState<string>('All');
@@ -44,6 +49,19 @@ export default function App() {
       console.warn('Failed to load saved problems:', e);
     }
   }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-neutral-950 flex flex-col items-center justify-center p-4 text-neutral-400">
+        <Loader2 className="w-8 h-8 text-amber-500 animate-spin mb-3" />
+        <p className="text-xs font-semibold tracking-wide">Authenticating founder session...</p>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <AuthScreen />;
+  }
 
   const toggleSaveProblem = (id: string, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
@@ -357,5 +375,13 @@ export default function App() {
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <MainAppContent />
+    </AuthProvider>
   );
 }

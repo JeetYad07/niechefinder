@@ -1,5 +1,6 @@
 import React from 'react';
-import { Compass, Sparkles, Calculator, BookOpen, BookmarkCheck, Users, Search, X, Flame } from 'lucide-react';
+import { Compass, Sparkles, Calculator, BookOpen, BookmarkCheck, Users, Search, X, LogOut, User } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 interface NavbarProps {
   activeTab: 'problems' | 'ai-validator' | 'calculator' | 'framework' | 'saved' | 'community';
@@ -16,6 +17,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   searchQuery,
   setSearchQuery,
 }) => {
+  const { user, logout } = useAuth();
+
   return (
     <header className="sticky top-0 z-40 glass-header border-b border-neutral-800/80 text-neutral-100 shadow-md">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
@@ -61,86 +64,114 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           )}
 
-          {/* Touch-scrollable Navigation Tabs */}
-          <nav className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto max-w-full py-1 scrollbar-none shrink-0 border-l border-neutral-800/80 pl-2 md:border-l-0 md:pl-0">
-            <button
-              onClick={() => setActiveTab('problems')}
-              className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer select-none whitespace-nowrap transition-all ${
-                activeTab === 'problems'
-                  ? 'bg-amber-500 text-neutral-950 shadow-md font-bold'
-                  : 'text-neutral-300 hover:text-white hover:bg-neutral-800/80'
-              }`}
-            >
-              <Compass className="w-3.5 h-3.5 shrink-0" />
-              <span>Problems</span>
-            </button>
+          {/* Touch-scrollable Navigation Tabs & User Profile */}
+          <div className="flex items-center gap-2 overflow-x-auto max-w-full py-1 scrollbar-none shrink-0 border-l border-neutral-800/80 pl-2 md:border-l-0 md:pl-0">
+            <nav className="flex items-center gap-1 sm:gap-1.5">
+              <button
+                onClick={() => setActiveTab('problems')}
+                className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer select-none whitespace-nowrap transition-all ${
+                  activeTab === 'problems'
+                    ? 'bg-amber-500 text-neutral-950 shadow-md font-bold'
+                    : 'text-neutral-300 hover:text-white hover:bg-neutral-800/80'
+                }`}
+              >
+                <Compass className="w-3.5 h-3.5 shrink-0" />
+                <span>Problems</span>
+              </button>
 
-            <button
-              onClick={() => setActiveTab('ai-validator')}
-              className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer select-none whitespace-nowrap transition-all ${
-                activeTab === 'ai-validator'
-                  ? 'bg-amber-500 text-neutral-950 shadow-md font-bold'
-                  : 'text-neutral-300 hover:text-white hover:bg-neutral-800/80'
-              }`}
-            >
-              <Sparkles className="w-3.5 h-3.5 shrink-0" />
-              <span>AI Validator</span>
-            </button>
+              <button
+                onClick={() => setActiveTab('ai-validator')}
+                className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer select-none whitespace-nowrap transition-all ${
+                  activeTab === 'ai-validator'
+                    ? 'bg-amber-500 text-neutral-950 shadow-md font-bold'
+                    : 'text-neutral-300 hover:text-white hover:bg-neutral-800/80'
+                }`}
+              >
+                <Sparkles className="w-3.5 h-3.5 shrink-0" />
+                <span>AI Validator</span>
+              </button>
 
-            <button
-              onClick={() => setActiveTab('community')}
-              className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer select-none whitespace-nowrap transition-all ${
-                activeTab === 'community'
-                  ? 'bg-amber-500 text-neutral-950 shadow-md font-bold'
-                  : 'text-neutral-300 hover:text-white hover:bg-neutral-800/80'
-              }`}
-            >
-              <Users className="w-3.5 h-3.5 shrink-0" />
-              <span>Crowd Feed</span>
-            </button>
+              <button
+                onClick={() => setActiveTab('community')}
+                className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer select-none whitespace-nowrap transition-all ${
+                  activeTab === 'community'
+                    ? 'bg-amber-500 text-neutral-950 shadow-md font-bold'
+                    : 'text-neutral-300 hover:text-white hover:bg-neutral-800/80'
+                }`}
+              >
+                <Users className="w-3.5 h-3.5 shrink-0" />
+                <span>Crowd Feed</span>
+              </button>
 
-            <button
-              onClick={() => setActiveTab('calculator')}
-              className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer select-none whitespace-nowrap transition-all ${
-                activeTab === 'calculator'
-                  ? 'bg-amber-500 text-neutral-950 shadow-md font-bold'
-                  : 'text-neutral-300 hover:text-white hover:bg-neutral-800/80'
-              }`}
-            >
-              <Calculator className="w-3.5 h-3.5 shrink-0" />
-              <span>MRR Calc</span>
-            </button>
+              <button
+                onClick={() => setActiveTab('calculator')}
+                className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer select-none whitespace-nowrap transition-all ${
+                  activeTab === 'calculator'
+                    ? 'bg-amber-500 text-neutral-950 shadow-md font-bold'
+                    : 'text-neutral-300 hover:text-white hover:bg-neutral-800/80'
+                }`}
+              >
+                <Calculator className="w-3.5 h-3.5 shrink-0" />
+                <span>MRR Calc</span>
+              </button>
 
-            <button
-              onClick={() => setActiveTab('framework')}
-              className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer select-none whitespace-nowrap transition-all ${
-                activeTab === 'framework'
-                  ? 'bg-amber-500 text-neutral-950 shadow-md font-bold'
-                  : 'text-neutral-300 hover:text-white hover:bg-neutral-800/80'
-              }`}
-            >
-              <BookOpen className="w-3.5 h-3.5 shrink-0" />
-              <span>Rules</span>
-            </button>
+              <button
+                onClick={() => setActiveTab('framework')}
+                className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer select-none whitespace-nowrap transition-all ${
+                  activeTab === 'framework'
+                    ? 'bg-amber-500 text-neutral-950 shadow-md font-bold'
+                    : 'text-neutral-300 hover:text-white hover:bg-neutral-800/80'
+                }`}
+              >
+                <BookOpen className="w-3.5 h-3.5 shrink-0" />
+                <span>Rules</span>
+              </button>
 
-            <button
-              onClick={() => setActiveTab('saved')}
-              className={`relative flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer select-none whitespace-nowrap transition-all ${
-                activeTab === 'saved'
-                  ? 'bg-amber-500 text-neutral-950 shadow-md font-bold'
-                  : 'text-neutral-300 hover:text-white hover:bg-neutral-800/80'
-              }`}
-              title="Saved Shortlist"
-            >
-              <BookmarkCheck className="w-3.5 h-3.5 shrink-0" />
-              <span>Shortlist</span>
-              {savedCount > 0 && (
-                <span className="px-1.5 py-0.2 rounded-full text-[10px] font-black bg-amber-400 text-neutral-950 shadow-xs">
-                  {savedCount}
-                </span>
-              )}
-            </button>
-          </nav>
+              <button
+                onClick={() => setActiveTab('saved')}
+                className={`relative flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer select-none whitespace-nowrap transition-all ${
+                  activeTab === 'saved'
+                    ? 'bg-amber-500 text-neutral-950 shadow-md font-bold'
+                    : 'text-neutral-300 hover:text-white hover:bg-neutral-800/80'
+                }`}
+                title="Saved Shortlist"
+              >
+                <BookmarkCheck className="w-3.5 h-3.5 shrink-0" />
+                <span>Shortlist</span>
+                {savedCount > 0 && (
+                  <span className="px-1.5 py-0.2 rounded-full text-[10px] font-black bg-amber-400 text-neutral-950 shadow-xs">
+                    {savedCount}
+                  </span>
+                )}
+              </button>
+            </nav>
+
+            {/* Authenticated User Profile Badge & Logout */}
+            {user && (
+              <div className="flex items-center gap-2 pl-2 border-l border-neutral-800 shrink-0">
+                <div className="flex items-center gap-2 bg-neutral-900 border border-neutral-800 rounded-xl px-2.5 py-1 text-xs">
+                  {user.photoURL ? (
+                    <img src={user.photoURL} alt={user.displayName || 'User'} className="w-5 h-5 rounded-full object-cover shrink-0" />
+                  ) : (
+                    <div className="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 font-bold text-[10px] flex items-center justify-center shrink-0">
+                      {user.displayName?.charAt(0).toUpperCase() || 'F'}
+                    </div>
+                  )}
+                  <span className="font-semibold text-neutral-200 hidden lg:inline max-w-[100px] truncate">
+                    {user.displayName || user.email?.split('@')[0]}
+                  </span>
+                </div>
+
+                <button
+                  onClick={logout}
+                  className="p-1.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-red-400 border border-neutral-800 transition-colors cursor-pointer select-none"
+                  title="Sign Out"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
