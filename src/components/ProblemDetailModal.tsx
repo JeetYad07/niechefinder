@@ -51,23 +51,23 @@ export const ProblemDetailModal: React.FC<ProblemDetailModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-4xl bg-neutral-900 border border-neutral-800 rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/80 backdrop-blur-sm overflow-y-auto">
+      <div className="relative w-full max-w-4xl bg-neutral-900 border border-neutral-800 rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[95vh] sm:max-h-[92vh] flex flex-col">
         {/* Header */}
-        <div className="p-6 bg-neutral-900/95 border-b border-neutral-800 sticky top-0 z-10 flex items-start justify-between gap-4">
+        <div className="p-4 sm:p-6 bg-neutral-900/95 border-b border-neutral-800 sticky top-0 z-10 flex items-start justify-between gap-3">
           <div>
-            <div className="flex items-center gap-2 mb-2 flex-wrap">
-              <span className="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-neutral-800 text-neutral-300 border border-neutral-700">
+            <div className="flex items-center gap-1.5 sm:gap-2 mb-2 flex-wrap">
+              <span className="text-[11px] sm:text-xs font-semibold px-2 py-0.5 rounded-md bg-neutral-800 text-neutral-300 border border-neutral-700">
                 {problem.category}
               </span>
-              <span className="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-amber-500/10 text-amber-400 border border-amber-500/20">
+              <span className="text-[11px] sm:text-xs font-semibold px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-400 border border-amber-500/20">
                 Build Time: {problem.complexity}
               </span>
-              <span className="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <span className="text-[11px] sm:text-xs font-semibold px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                 {problem.estimatedPrice} ({problem.priceModel})
               </span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+            <h2 className="text-lg sm:text-2xl font-black text-white tracking-tight leading-tight">
               {problem.title}
             </h2>
             <p className="mt-1 text-xs sm:text-sm text-neutral-400">
@@ -75,29 +75,29 @@ export const ProblemDetailModal: React.FC<ProblemDetailModalProps> = ({
             </p>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <button
               onClick={() => onToggleSave(problem.id)}
-              className={`p-2 rounded-lg border transition-colors ${
+              className={`p-2 rounded-lg border transition-colors cursor-pointer ${
                 isSaved
                   ? 'bg-amber-500/10 border-amber-500/30 text-amber-400'
                   : 'bg-neutral-800 border-neutral-700 text-neutral-400 hover:text-white'
               }`}
               title={isSaved ? 'Remove from shortlist' : 'Save to shortlist'}
             >
-              {isSaved ? <BookmarkCheck className="w-5 h-5" /> : <Bookmark className="w-5 h-5" />}
+              {isSaved ? <BookmarkCheck className="w-4 h-4 sm:w-5 sm:h-5" /> : <Bookmark className="w-4 h-4 sm:w-5 sm:h-5" />}
             </button>
             <button
               onClick={onClose}
-              className="p-2 rounded-lg bg-neutral-800 border border-neutral-700 text-neutral-400 hover:text-white hover:bg-neutral-700 transition-colors"
+              className="p-2 rounded-lg bg-neutral-800 border border-neutral-700 text-neutral-400 hover:text-white hover:bg-neutral-700 transition-colors cursor-pointer"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
         </div>
 
         {/* Scrollable Body */}
-        <div className="p-6 overflow-y-auto space-y-8 text-neutral-200">
+        <div className="p-4 sm:p-6 overflow-y-auto space-y-6 sm:space-y-8 text-neutral-200">
           {/* Section 1: The Bleeding Neck & Status Quo */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-4 rounded-xl bg-red-950/20 border border-red-900/30">
@@ -146,7 +146,7 @@ export const ProblemDetailModal: React.FC<ProblemDetailModalProps> = ({
                 <Target className="w-4 h-4 text-emerald-400" />
                 <span>14-Day MVP Architecture (Build Only This)</span>
               </h4>
-              <span className="text-[11px] text-neutral-500 font-medium">
+              <span className="text-[11px] text-neutral-500 font-medium hidden sm:inline">
                 Do not over-engineer
               </span>
             </div>
@@ -165,7 +165,7 @@ export const ProblemDetailModal: React.FC<ProblemDetailModalProps> = ({
 
           {/* Section 4: Pricing Tiers & Financial Freedom Sim */}
           <div>
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3">
               <h4 className="text-sm font-bold text-white flex items-center gap-2">
                 <DollarSign className="w-4 h-4 text-emerald-400" />
                 <span>Monetization Tiers & MRR Potential</span>
@@ -175,14 +175,14 @@ export const ProblemDetailModal: React.FC<ProblemDetailModalProps> = ({
                   onClose();
                   onOpenCalculatorWithPrice(problem.estimatedPrice);
                 }}
-                className="text-xs text-amber-400 hover:text-amber-300 font-medium flex items-center gap-1"
+                className="text-xs text-amber-400 hover:text-amber-300 font-medium flex items-center gap-1 cursor-pointer"
               >
                 <span>Run Interactive MRR Sim</span>
                 <TrendingUp className="w-3.5 h-3.5" />
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
               {problem.pricingTiers.map((tier, idx) => (
                 <div
                   key={idx}
@@ -209,12 +209,12 @@ export const ProblemDetailModal: React.FC<ProblemDetailModalProps> = ({
             </div>
 
             {/* Income freedom table */}
-            <div className="mt-3 p-3 rounded-xl bg-emerald-950/20 border border-emerald-900/30 flex flex-wrap items-center justify-between gap-3 text-xs">
+            <div className="mt-3 p-3 rounded-xl bg-emerald-950/20 border border-emerald-900/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3 text-xs">
               <div className="flex items-center gap-2 text-emerald-300 font-semibold">
-                <TrendingUp className="w-4 h-4 text-emerald-400" />
+                <TrendingUp className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>Freedom Numbers:</span>
               </div>
-              <div className="flex items-center gap-4 text-neutral-300">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-neutral-300">
                 <div>
                   <span className="text-neutral-400">25 Clients: </span>
                   <strong className="text-white">{problem.financialFreedomSimulation.twentyFiveClients}</strong>
@@ -241,7 +241,7 @@ export const ProblemDetailModal: React.FC<ProblemDetailModalProps> = ({
               {problem.firstTenCustomersStrategy}
             </p>
 
-            <div className="mt-4 p-3 rounded-lg bg-neutral-900 border border-neutral-700/80 flex items-center justify-between gap-3">
+            <div className="mt-4 p-3 rounded-lg bg-neutral-900 border border-neutral-700/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <div className="text-xs text-neutral-300">
                 <span className="text-amber-400 font-bold mr-1.5">The 5-Second Pitch:</span>
                 "{problem.fiveMinutePitch}"
