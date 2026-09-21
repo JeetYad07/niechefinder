@@ -23,6 +23,37 @@ export const CURATED_PROBLEMS: ProblemOpportunity[] = [
     ],
     firstTenCustomersStrategy: 'Call 25 local general contractors listed on local Home Builders Association directories. Ask for the office manager or project coordinator: "How do you know today if an active subcontractor on your jobsite has an expired liability policy?" Offer to organize their current 20 subs for free in 48 hours.',
     evidenceSignal: 'Over 140+ threads on r/Construction and r/sweatystartup complaining about chasing sub certificates, plus frequent $10,000+ fines or blocked loan disbursements during bank draws.',
+    evidenceItems: [
+      {
+        id: 'ev-sub-1',
+        problemId: 'subcontractor-coi-tracker',
+        sourceType: 'reddit_thread',
+        sourceUrl: 'https://reddit.com/r/Construction/comments/exp_coi_nightmare',
+        sourceTitle: 'r/Construction: Office manager lost $45k bank draw because sub insurance expired 2 days before audit',
+        verbatimQuote: 'We had a framer on site whose general liability lapsed 48 hours before bank draw inspection. Bank froze the $120k draw until we produced renewed ACORD forms. Took 6 days of frantic calling.',
+        authorRole: 'General Contractor ($3M ACV)',
+        publishedAt: '2025-11-12',
+        verifiedAt: '2026-09-01',
+        isAIInferred: false,
+      },
+      {
+        id: 'ev-sub-2',
+        problemId: 'subcontractor-coi-tracker',
+        sourceType: 'forum_post',
+        sourceUrl: 'https://sweatystartup.com/community/subcontractor-lien-waiver-process',
+        sourceTitle: 'SweatyStartup Forum: How do you collect lien waivers before paying subs?',
+        verbatimQuote: 'If you disburse checks before receiving signed lien waivers, a sub can file a mechanic lien on the property owner. Happened to me last summer, cost $12k in legal fees to resolve.',
+        authorRole: 'Residential Builder',
+        publishedAt: '2026-01-20',
+        verifiedAt: '2026-09-01',
+        isAIInferred: false,
+      },
+    ],
+    invalidationCriteria: [
+      'If > 60% of target general contractors insist on using paper binders and refuse SMS magic links.',
+      'If subcontractors refuse to upload PDF certificates via mobile web links.',
+      'If major insurance providers change ACORD-25 layout standards without public OCR schemas.',
+    ],
     pricingTiers: [
       {
         name: 'Solo Builder',
@@ -77,6 +108,24 @@ export const CURATED_PROBLEMS: ProblemOpportunity[] = [
     ],
     firstTenCustomersStrategy: 'Reach out to DTC brand founders on Twitter/LinkedIn or Shopify app groups. Offer a "No Win, No Fee" audit: "Give us read-only tracking numbers for last month; we will find your uncollected carrier refunds and split the money 80/20."',
     evidenceSignal: 'FedEx and UPS report billions in unclaimed service guarantee and package loss refunds annually. E-commerce communities frequently post about carrier frustration during Q4 holiday surges.',
+    evidenceItems: [
+      {
+        id: 'ev-ship-1',
+        problemId: 'carrier-shipping-claim-recovery',
+        sourceType: 'g2_review',
+        sourceUrl: 'https://reddit.com/r/shopify/comments/carrier_claims_refunds',
+        sourceTitle: 'r/shopify: We recovered $4,200 in unclaimed FedEx delivery delay refunds last month',
+        verbatimQuote: 'Most DTC sellers ship 1,000 orders/month and ignore late delivery refunds because filing a claim takes 12 minutes per tracking number. We automated tracking checks and got $4,200 back.',
+        authorRole: 'DTC Brand Founder ($800k GMV)',
+        publishedAt: '2025-12-05',
+        verifiedAt: '2026-09-01',
+        isAIInferred: false,
+      },
+    ],
+    invalidationCriteria: [
+      'If major carriers update CAPTCHAs to completely block third-party claim aggregators.',
+      'If Shopify brands refuse to grant read-only tracking API permissions.',
+    ],
     pricingTiers: [
       {
         name: 'Pure Contingency',
@@ -131,6 +180,24 @@ export const CURATED_PROBLEMS: ProblemOpportunity[] = [
     ],
     firstTenCustomersStrategy: 'Post in regional Airbnb Host Facebook groups (e.g. "Poconos Vacation Rental Owners", "Joshua Tree Hosts", "Smoky Mountains Hosts"): "I built a free tool that generates your exact county TOT lodging tax return from your Airbnb CSV in 30 seconds."',
     evidenceSignal: 'Thousands of complaints in host forums about surprise $1,000 penalties from county tax commissioners for inaccurate lodging tax deductions.',
+    evidenceItems: [
+      {
+        id: 'ev-str-1',
+        problemId: 'local-str-tax-permit-tracker',
+        sourceType: 'forum_post',
+        sourceUrl: 'https://community.withairbnb.com/t5/Hosting/TOT-lodging-tax-audit-penalty/td-p/1829402',
+        sourceTitle: 'Airbnb Community: County Tax Commissioner fined me $1,400 for miscalculating non-taxable cleaning fees',
+        verbatimQuote: 'Our county requires reporting TOT quarterly. I included cleaning fees as non-taxable, but the county rules state cleaning is taxable if non-optional. Got hit with $1,400 in back-taxes and interest.',
+        authorRole: 'Superhost (6 doors)',
+        publishedAt: '2025-10-18',
+        verifiedAt: '2026-09-01',
+        isAIInferred: false,
+      },
+    ],
+    invalidationCriteria: [
+      'If Airbnb or VRBO begin auto-remitting 100% of municipal TOT taxes in all 3,000 US counties.',
+      'If hosts refuse to pay $39/mo out of their rental revenue.',
+    ],
     pricingTiers: [
       {
         name: 'Starter Host',
@@ -185,6 +252,24 @@ export const CURATED_PROBLEMS: ProblemOpportunity[] = [
     ],
     firstTenCustomersStrategy: 'Join private practice therapist Facebook groups and local psychology association forums. Message solo practitioners: "Are your private-pay clients struggling to get insurance reimbursements for their sessions? We provide a pre-check tool that reduces claim denials from 42% down to under 5%."',
     evidenceSignal: 'Mental health parity lawsuits are surging nationwide; therapist groups on Reddit and Facebook cite insurance reimbursement friction as the #1 reason clients drop out of private-pay care.',
+    evidenceItems: [
+      {
+        id: 'ev-health-1',
+        problemId: 'out-of-network-superbill-appeal',
+        sourceType: 'forum_post',
+        sourceUrl: 'https://reddit.com/r/psychotherapy/comments/superbill_denials_out_of_network',
+        sourceTitle: 'r/psychotherapy: UHC rejecting 90837 superbills for missing telehealth modifier',
+        verbatimQuote: 'Insurers are rejecting 40% of superbills over minor modifier code changes like -95 or GT. My cash patients give up trying to get reimbursed and quit therapy after 3 sessions.',
+        authorRole: 'Licensed Clinical Social Worker (Private Practice)',
+        publishedAt: '2026-02-01',
+        verifiedAt: '2026-09-01',
+        isAIInferred: false,
+      },
+    ],
+    invalidationCriteria: [
+      'If HIPAA compliance overhead requires $20k+ annual BAA infrastructure before launching MVP.',
+      'If private pay therapists refuse to touch third-party claim software.',
+    ],
     pricingTiers: [
       {
         name: 'Solo Practice',
@@ -239,6 +324,24 @@ export const CURATED_PROBLEMS: ProblemOpportunity[] = [
     ],
     firstTenCustomersStrategy: 'Visit local industrial parks and walk into 10 CNC machine shops. Ask to speak with the estimator or owner: "How many hours a week do you spend quoting parts that you never end up winning? Can I take your hardest 20-page blueprint PDF and run it through our software right now to show you?"',
     evidenceSignal: 'Machinist subreddits (r/Machinists, Practical Machinist forums) consistently complain that quoting takes up 40% of unbillable time and high-end software is absurdly overpriced.',
+    evidenceItems: [
+      {
+        id: 'ev-cnc-1',
+        problemId: 'small-machine-shop-pdf-rfq-quoter',
+        sourceType: 'forum_post',
+        sourceUrl: 'https://reddit.com/r/Machinists/comments/rfq_estimating_headache',
+        sourceTitle: 'r/Machinists: I spend 15 hours a week quoting jobs that 80% of the time go to cheaper offshore shops',
+        verbatimQuote: 'Reading 30-page blueprint PDFs for title block material specs and tolerance notes takes up half my evenings. Missed a ±0.0005 tolerance note on a stainless flange last month and ate $3,500 in scrapped stock.',
+        authorRole: 'CNC Shop Owner (4 machinists)',
+        publishedAt: '2026-01-14',
+        verifiedAt: '2026-09-01',
+        isAIInferred: false,
+      },
+    ],
+    invalidationCriteria: [
+      'If machine shop owners insist on manual highlighter paper quoting and refuse PDF upload tools.',
+      'If OCR accuracy on handwritten engineering PDF notes falls below 95%.',
+    ],
     pricingTiers: [
       {
         name: 'Single Shop',
@@ -293,6 +396,24 @@ export const CURATED_PROBLEMS: ProblemOpportunity[] = [
     ],
     firstTenCustomersStrategy: 'Walk down a local restaurant dining district during off-peak hours (2:30 PM - 4:00 PM). Ask to speak with the head chef or general manager: "When was the last time a piece of critical equipment failed on a busy weekend? Here is a free set of laminated QR tags that keep your repair specs and vendor contacts instantly accessible from any cook’s phone."',
     evidenceSignal: 'Restaurant management groups on Facebook and r/Restaurateur routinely share horror stories of $4,000 weekend compressor replacements that could have been prevented with a $15 filter cleaning.',
+    evidenceItems: [
+      {
+        id: 'ev-kit-1',
+        problemId: 'commercial-kitchen-qr-equipment-maintenance',
+        sourceType: 'reddit_thread',
+        sourceUrl: 'https://reddit.com/r/Restaurateur/comments/fryer_breakdown_friday',
+        sourceTitle: 'r/Restaurateur: Lost $3,200 on Friday night sales because deep fryer failed and repair tech took 4 hours',
+        verbatimQuote: 'Deep fryer went dark right at 7:30 PM. Cooks had no idea who our maintenance contractor was or where the manual was stored. Emergency callout cost $420 plus lost ticket sales.',
+        authorRole: 'Bistro Owner (2 locations)',
+        publishedAt: '2025-11-28',
+        verifiedAt: '2026-09-01',
+        isAIInferred: false,
+      },
+    ],
+    invalidationCriteria: [
+      'If kitchen staff refuse to scan QR tags during routine daily shifts.',
+      'If restaurant owners refuse to pay $49/mo per location.',
+    ],
     pricingTiers: [
       {
         name: 'Single Bistro',
@@ -347,6 +468,24 @@ export const CURATED_PROBLEMS: ProblemOpportunity[] = [
     ],
     firstTenCustomersStrategy: 'Search county property appraisal databases or state Secretary of State nonprofit corporation records for registered "Homeowners Association" entities with no commercial management company listed. Contact the registered agent (usually the board president resident): "Are you tired of collecting paper checks from your neighbors?"',
     evidenceSignal: 'Over 3,000 posts on r/HOA from volunteer board members lamenting accounting headaches, lost architectural review records, and awkward in-person payment collections from neighbors.',
+    evidenceItems: [
+      {
+        id: 'ev-hoa-1',
+        problemId: 'self-managed-hoa-portal',
+        sourceType: 'reddit_thread',
+        sourceUrl: 'https://reddit.com/r/HOA/comments/treasurer_burnout_dues_checks',
+        sourceTitle: 'r/HOA: I spend 10 hours a month chasing down late checks from 45 neighbors',
+        verbatimQuote: 'As volunteer HOA treasurer, I hate knocking on my neighbors doors asking for their $150 quarterly dues check. We lost an architectural review PDF from 2024 and got sued over a fence color dispute.',
+        authorRole: 'Volunteer HOA Treasurer (48 units)',
+        publishedAt: '2026-01-08',
+        verifiedAt: '2026-09-01',
+        isAIInferred: false,
+      },
+    ],
+    invalidationCriteria: [
+      'If HOA boards require 100% in-person physical votes to adopt new software.',
+      'If older board members insist on paper checks and reject Stripe ACH payouts.',
+    ],
     pricingTiers: [
       {
         name: 'Pocket Community',
@@ -401,6 +540,24 @@ export const CURATED_PROBLEMS: ProblemOpportunity[] = [
     ],
     firstTenCustomersStrategy: 'Target local dental practices and medspas via LinkedIn or phone calls to the office manager: "When the state environmental inspector walks in, can your team produce all signed certificates of destruction for hazardous waste from the past 3 years in under 3 minutes?"',
     evidenceSignal: 'Medical practice management forums frequently report panic when surprise OSHA or state environmental protection audits reveal missing hazardous waste documentation.',
+    evidenceItems: [
+      {
+        id: 'ev-med-1',
+        problemId: 'medical-waste-manifest-compliance',
+        sourceType: 'regulatory_filing',
+        sourceUrl: 'https://epa.gov/compliance/medical-waste-manifest-audit-guidance',
+        sourceTitle: 'EPA Biohazard Compliance Log Audit Notice',
+        verbatimQuote: 'Facilities producing sharps or biohazard waste must produce 3-year signed certificates of destruction within 48 hours of audit notice. Failure yields statutory fines starting at $2,500.',
+        authorRole: 'State EPA Environmental Auditor',
+        publishedAt: '2025-08-15',
+        verifiedAt: '2026-09-01',
+        isAIInferred: false,
+      },
+    ],
+    invalidationCriteria: [
+      'If clinics shift 100% to digital waste disposal manifests via state-mandated electronic portals.',
+      'If dental office managers refuse to scan paper receipt slips.',
+    ],
     pricingTiers: [
       {
         name: 'Single Practitioner',

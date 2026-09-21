@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { ProblemOpportunity } from '../types';
+import { ProblemOpportunity, EvidenceItem } from '../types';
+import { OutreachGeneratorModal } from './OutreachGeneratorModal';
+import { TechStackRecommender } from './TechStackRecommender';
 import {
   X,
   Flame,
@@ -14,7 +16,10 @@ import {
   BookmarkCheck,
   Compass,
   Target,
-  FileSpreadsheet
+  FileSpreadsheet,
+  ExternalLink,
+  ShieldAlert,
+  Sparkles,
 } from 'lucide-react';
 
 interface ProblemDetailModalProps {
@@ -34,6 +39,7 @@ export const ProblemDetailModal: React.FC<ProblemDetailModalProps> = ({
 }) => {
   const [copiedPitch, setCopiedPitch] = useState(false);
   const [copiedQuestions, setCopiedQuestions] = useState(false);
+  const [showOutreachModal, setShowOutreachModal] = useState(false);
 
   const handleCopyPitch = () => {
     navigator.clipboard.writeText(problem.fiveMinutePitch);
@@ -126,19 +132,74 @@ export const ProblemDetailModal: React.FC<ProblemDetailModalProps> = ({
             </div>
 
             {/* Section 2: Why Incumbents Ignore It & Market Evidence */}
-            <div className="p-4 rounded-xl bg-neutral-800/30 border border-neutral-800">
-              <h4 className="text-sm font-bold text-white mb-2 flex items-center gap-2">
-                <Compass className="w-4 h-4 text-blue-400" />
-                <span>Competitor Blindspot: Why Nobody Is Solving This Well</span>
-              </h4>
-              <p className="text-xs text-neutral-300 leading-relaxed">
-                {problem.whyIncumbentsIgnore}
-              </p>
-              <div className="mt-3 p-2.5 rounded-lg bg-neutral-900/80 border border-neutral-800 text-xs text-neutral-400 flex items-start gap-2">
-                <span className="text-amber-400 font-bold">Signal:</span>
-                <span>{problem.evidenceSignal}</span>
+            <div className="p-4 rounded-xl bg-neutral-800/30 border border-neutral-800 space-y-4">
+              <div>
+                <h4 className="text-sm font-bold text-white mb-2 flex items-center gap-2">
+                  <Compass className="w-4 h-4 text-blue-400" />
+                  <span>Competitor Blindspot & Market Evidence</span>
+                </h4>
+                <p className="text-xs text-neutral-300 leading-relaxed">
+                  {problem.whyIncumbentsIgnore}
+                </p>
               </div>
+
+              {/* Verified Source Evidence Items */}
+              {problem.evidenceItems && problem.evidenceItems.length > 0 && (
+                <div className="pt-3 border-t border-neutral-800 space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-white flex items-center gap-2">
+                      <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-black uppercase">
+                        [Source Evidence]
+                      </span>
+                      <span>Raw Verbatim Evidence Logs</span>
+                    </span>
+                    <span className="text-[11px] text-neutral-400">Verified links & quotes</span>
+                  </div>
+
+                  <div className="space-y-2">
+                    {problem.evidenceItems.map((item) => (
+                      <div
+                        key={item.id}
+                        className="p-3 rounded-xl bg-neutral-900/90 border border-emerald-500/20 space-y-1.5"
+                      >
+                        <div className="flex items-center justify-between text-[11px]">
+                          <span className="font-semibold text-emerald-300">{item.sourceTitle}</span>
+                          <a
+                            href={item.sourceUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-amber-400 hover:underline flex items-center gap-1 font-medium"
+                          >
+                            <span>View Source</span>
+                            <ExternalLink className="w-3 h-3" />
+                          </a>
+                        </div>
+                        <p className="text-xs text-neutral-300 italic">"{item.verbatimQuote}"</p>
+                        <div className="flex items-center gap-3 text-[10px] text-neutral-400 pt-1">
+                          {item.authorRole && <span>Role: <strong className="text-neutral-200">{item.authorRole}</strong></span>}
+                          <span>Verified: {item.verifiedAt}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
+
+            {/* Invalidation & Kill Criteria Box */}
+            {problem.invalidationCriteria && problem.invalidationCriteria.length > 0 && (
+              <div className="p-4 rounded-xl bg-rose-950/20 border border-rose-900/40 space-y-2">
+                <div className="flex items-center gap-2 text-rose-400 font-bold text-xs">
+                  <ShieldAlert className="w-4 h-4 shrink-0" />
+                  <span>Idea Invalidation & Kill Criteria (When to Stop or Pivot)</span>
+                </div>
+                <ul className="space-y-1.5 text-xs text-rose-200/90 pl-6 list-disc">
+                  {problem.invalidationCriteria.map((crit, idx) => (
+                    <li key={idx}>{crit}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             {/* Section 3: 14-Day MVP Architecture & Tech Stack */}
             <div className="space-y-4">

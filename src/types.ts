@@ -10,6 +10,19 @@ export type ProblemCategory =
 
 export type BuildComplexity = 'Weekend MVP' | '1-2 Weeks' | '2-3 Weeks' | '3-4 Weeks';
 
+export interface EvidenceItem {
+  id: string;
+  problemId: string;
+  sourceType: 'forum_post' | 'g2_review' | 'reddit_thread' | 'regulatory_filing' | 'job_listing' | 'customer_interview';
+  sourceUrl: string;
+  sourceTitle: string;
+  verbatimQuote: string;
+  authorRole?: string;
+  publishedAt?: string;
+  verifiedAt: string;
+  isAIInferred: boolean;
+}
+
 export interface ProblemOpportunity {
   id: string;
   title: string;
@@ -19,14 +32,16 @@ export interface ProblemOpportunity {
   targetBuyer: string;
   estimatedPrice: string;
   priceModel: 'Monthly SaaS' | 'Per Transaction' | 'Usage Base';
-  urgencyRating: number; // 1-10
-  profitScore: number; // 1-10
+  urgencyRating?: number; // Optional legacy score
+  profitScore?: number; // Optional legacy score
   theBleedingNeck: string;
   currentStatusQuo: string;
   whyIncumbentsIgnore: string;
   mvpFeatureSet: string[];
   firstTenCustomersStrategy: string;
   evidenceSignal: string;
+  evidenceItems?: EvidenceItem[];
+  invalidationCriteria: string[];
   pricingTiers: {
     name: string;
     price: string;

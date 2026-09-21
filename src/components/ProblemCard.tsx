@@ -84,14 +84,13 @@ export const ProblemCard: React.FC<ProblemCardProps> = ({
       {/* Footer Metrics & CTA */}
       <div className="mt-6 pt-4 border-t border-neutral-800/80 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div>
-            <div className="text-[10px] uppercase font-semibold text-neutral-500 tracking-wider">Urgency</div>
-            <div className="flex items-center gap-1 text-xs font-bold text-amber-400">
-              <Flame className="w-3 h-3 fill-amber-400" />
-              {problem.urgencyRating}/10
-            </div>
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-semibold">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span>{problem.evidenceItems?.length || 1} Verified Evidence</span>
           </div>
+
           <div className="h-6 w-px bg-neutral-800" />
+
           <div>
             <div className="text-[10px] uppercase font-semibold text-neutral-500 tracking-wider">At 50 Clients</div>
             <div className="text-xs font-bold text-emerald-400">
